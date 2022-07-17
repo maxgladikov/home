@@ -41,9 +41,6 @@ public class Account {
 	private  String roles;
 	private  Boolean active;
 
-	
-
-
 }
 
 

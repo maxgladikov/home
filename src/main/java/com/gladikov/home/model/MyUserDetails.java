@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyUserDetails implements UserDetails{
+	
 	public MyUserDetails(Account user) {
 		this.userName=user.getUserName();
 		this.password=user.getPassword();
