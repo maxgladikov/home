@@ -7,3 +7,6 @@ jar {
 
 //	if (project.tasks.findByName('test')) {
 //	if (['common'].contains(project.name) {
+
+
+

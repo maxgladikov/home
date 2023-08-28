@@ -12,4 +12,4 @@ spring:
 logging:
   level:
     root: INFO      
-    org.springframework.cloud: 'DEBUG'
+    org.springframework.cloud: 'INFO'

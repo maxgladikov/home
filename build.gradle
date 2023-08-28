@@ -8,12 +8,12 @@ plugins {
 
 def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery')]
 def libraryProjects=[project(':common')]
-
+version='1.0.9'
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
 	group 'online.gladikov.home'
-	version '1.0'
+	
 	ext {
 		springCloudVersion = "2022.0.3"
 		mapstructVersion = "1.5.5.Final"
@@ -122,19 +122,46 @@ configure(springProjects){
 	  }
 	  check.dependsOn integrationTest
 	//*************\\
-	  jib {
-		  from {
-			image = 'eclipse-temurin:17.0.8_7-jre-alpine'
-		  }
-		  to {
-			image = "maxgladikov/${rootProject.name}.${project.name}:${version}"
-			auth {
-			  username = System.getenv("DOCKER_USERNAME")
-			  password = System.getenv("DOCKER_PASSWORD")
-			}
-		  }
-		}
-		tasks.build.dependsOn tasks.jib
+jib {
+	var tag = "latest"
+	from {
+	  image = 'eclipse-temurin:17.0.8_7-jre-alpine'
+	}
+	to {
+	  image = "maxgladikov/${rootProject.name}.${project.name}:${rootProject.version}"
+	  tags = ["$tag", "$rootProject.version"]
+	  auth {
+		username = System.getenv("DOCKER_USERNAME")
+		password = System.getenv("DOCKER_PASSWORD")
+	  }
+	}
+	container {
+		jvmFlags = [
+//					  "-server",
+				"-Duser.timezone=UTC",
+				"-Xms128m",
+				"-Xmx1g"]
+	creationTime = Instant.now().toString()
+	format = com.google.cloud.tools.jib.api.buildplan.ImageFormat.OCI
+	}
+  }
+  
+  tasks.build.dependsOn tasks.jib
+  
+  
+
+
+
+task incrementVersion{
+    String minor=rootProject.version.substring(rootProject.version.lastIndexOf('.')+1)
+    int m=minor.toInteger()+1
+    String major=rootProject.version.substring(0,rootProject.version.length()-1)
+    String s=rootProject.buildFile.getText().replaceFirst("version='$rootProject.version'","version='"+major+m+"'")
+    rootProject.buildFile.setText(s)
+}
+
+tasks.jib.dependsOn tasks.incrementVersion
+		
 		
 		dependencyManagement {
 			imports {
@@ -157,3 +184,14 @@ dependencyManagement {
 		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
 	}
 }
+
+
+
+
+
+
+
+
+
+
+

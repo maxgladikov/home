@@ -19,7 +19,7 @@ public class Task {
 	private final List<SensorReader> clients;
 //	private final ConfigSensors sensors;
 	
-	 @Scheduled(cron="0/30 * * ? * *")
+//	 @Scheduled(cron="0/30 * * ? * *")
 	public void getRecord() {
 		 clients.parallelStream().forEach(client -> log.info(client.getRecord().toString()));
 	 }
