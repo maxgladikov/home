@@ -1,0 +1,159 @@
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.0' apply false
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'com.google.cloud.tools.jib' version '3.3.2'
+}
+
+def springProjects=[project(':climate_service'), project(':config_server')]
+def libraryProjects=[project(':common')]
+
+allprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'java'
+	group 'online.gladikov.home'
+	version '1.0'
+	ext {
+		springCloudVersion = "2022.0.3"
+		mapstructVersion = "1.5.5.Final"
+		lombokVersion = "1.18.28"
+		jacocoVersion = "0.8.7"
+		jUnitVersion='5.7.1'
+		profiles = 'dev'
+	}
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(17)
+		}
+	}
+	java.sourceCompatibility(JavaVersion.VERSION_17)
+	java.targetCompatibility(JavaVersion.VERSION_17)
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	tasks.withType(JavaCompile) {
+		options.encoding='UTF-8'
+	}
+	
+}
+
+subprojects {
+	apply plugin: 'jacoco'
+	dependencies {
+		implementation 'com.google.guava:guava:30.1.1-jre'
+		implementation 'org.apache.commons:commons-lang3:3.10'
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+		annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+		annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+	}
+	configurations {
+		compileOnly.extendsFrom annotationProcessor
+		testCompileOnly.extendsFrom annotationProcessor
+		testAnnotationProcessor.extendsFrom annotationProcessor
+	}
+	tasks.named('test', Test) {
+		useJUnitPlatform()
+		maxHeapSize = '1G'
+		testLogging {
+			events "passed"
+		}
+	}
+	// ** JaCoCo ** \\
+	jacocoTestCoverageVerification {
+		violationRules {
+		  rule {
+			limit {
+			  counter = 'LINE'
+			  value = 'COVEREDRATIO'
+			  minimum = 0.05
+			}
+		  }
+		}
+	  }
+	  test.finalizedBy jacocoTestReport
+	  jacocoTestReport.dependsOn test
+	  check.dependsOn jacocoTestCoverageVerification
+	// ************ \\
+}
+
+configure(springProjects){
+	println "Hello from spring ${project.name}"
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management' 
+	apply plugin: 'com.google.cloud.tools.jib' 
+	
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-configuration-processor:3.1.0'
+		testImplementation ('org.springframework.boot:spring-boot-starter-test'){
+				exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+			}
+	}
+	bootJar {
+		enabled = true
+	}
+	bootBuildImage{
+		imageName='maxgladikov/'+rootProject.name+'-'+project.name
+	  }
+	  
+	//** Integration Tests **\\
+	  sourceSets {
+		  intTest {
+			  compileClasspath += sourceSets.main.output
+			  runtimeClasspath += sourceSets.main.output
+		  }
+	  }
+	  configurations {
+		  intTestImplementation.extendsFrom testImplementation
+		  intTestRuntimeOnly.extendsFrom runtimeOnly
+	  }
+	  tasks.register('integrationTest', Test) {
+		  description = 'Runs integration tests.'
+		  group = 'verification'
+		  testClassesDirs = sourceSets.intTest.output.classesDirs
+		  classpath = sourceSets.intTest.runtimeClasspath
+		  shouldRunAfter test
+		  useJUnitPlatform()
+		  testLogging {
+			  events "passed"
+		  }
+	  }
+	  check.dependsOn integrationTest
+	//*************\\
+	  jib {
+		  from {
+			image = 'eclipse-temurin:17.0.8_7-jre-alpine'
+		  }
+		  to {
+			image = "maxgladikov/${rootProject.name}.${project.name}:${version}"
+			auth {
+			  username = System.getenv("DOCKER_USERNAME")
+			  password = System.getenv("DOCKER_PASSWORD")
+			}
+		  }
+		}
+		tasks.build.dependsOn tasks.jib
+		
+		dependencyManagement {
+			imports {
+				mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+			}
+		}
+}
+
+configure(libraryProjects){
+	println "Hello from library ${project.name}"
+	apply plugin: 'java-library'
+	dependencies {
+		testImplementation "org.junit.jupiter:junit-jupiter:${jUnitVersion}"
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+	}
+}

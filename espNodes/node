@@ -1,0 +1,153 @@
+#include "Arduino.h"
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+#include <ArduinoJson.h>
+
+const char* ssid = "<your-ssid>";
+const char* password = "<your-passwd>";
+
+
+
+const char* tag=<some_tag>;
+float temperature;// Celsus deg
+float pressure;// mmHg
+float humidity;// %
+//ADC_MODE(ADC_VCC); //switch ADC to input voltage mesurement
+bool bmeStatus;
+DynamicJsonDocument docSensor(512);
+DynamicJsonDocument docAct(512);
+
+ESP8266WebServer server(80);
+Adafruit_BME280 bme; // I2C
+
+
+void readSensor(){
+  temperature=bme.readTemperature();//C
+  // word pressure=bme.readPressure() / 100.0F;//hPa
+  pressure=0.75006*bme.readPressure() / 100.0F;//mmHg
+  humidity=bme.readHumidity();//%
+}
+
+// Serving Hello world
+//void getHelloWord() {
+  //  server.send(200, "text/json", "{\"name\": \"Hello world\"}");
+//}
+
+void getSensorData() {
+    docSensor["sensor"] = tag;
+    docSensor["temperature"] = temperature;
+    docSensor["pressure"] = pressure;
+    docSensor["humidity"] = humidity;
+    String response;
+      serializeJson(docSensor, response);
+
+    server.send(200, "application/json", response);
+}
+
+void getActuator() {
+   
+    docAct["chipId"] = ESP.getChipId();
+    docAct["flashChipId"] = ESP.getFlashChipId();
+    docAct["flashChipSize"] = ESP.getFlashChipSize();
+    docAct["flashChipRealSize"] = ESP.getFlashChipRealSize();
+    docAct["CPU_freq"] = ESP.getCpuFreqMHz();
+    docAct["vcc"] =ESP.getVcc();
+    docAct["freeHeap"] = ESP.getFreeHeap();
+    String response;
+      serializeJson(docAct, response);
+
+    server.send(200, "text/json", response);
+}
+ 
+// Define routing
+void restServerRouting() {
+   // server.on("/", HTTP_GET, []() {
+     //   server.send(200, F("text/html"),
+       //     F("Welcome to the REST Web Server"));
+    //});
+    //server.on(F("/helloWorld"), HTTP_GET, getHelloWord);
+
+    server.on(F("/"), HTTP_GET, getSensorData);
+    server.on(F("/actuator"), HTTP_GET, getActuator);
+}
+ 
+// Manage not found URL
+void handleNotFound() {
+  String message = "File Not Found\n\n";
+  message += "URI: ";
+  message += server.uri();
+  message += "\nMethod: ";
+  message += (server.method() == HTTP_GET) ? "GET" : "POST";
+  message += "\nArguments: ";
+  message += server.args();
+  message += "\n";
+  for (uint8_t i = 0; i < server.args(); i++) {
+    message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+  }
+  server.send(404, "text/plain", message);
+}
+ 
+void setup(void) {
+  
+
+
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  Serial.println("");
+
+  
+ 
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+ 
+  // Activate mDNS this is used to be able to connect to the server
+  // with local DNS hostmane esp8266.local
+  if (MDNS.begin("esp8266")) {
+    Serial.println("MDNS responder started");
+  }
+ 
+  // Set server routing
+  restServerRouting();
+  // Set not found response
+  server.onNotFound(handleNotFound);
+  // Start server
+  server.begin();
+  Serial.println("HTTP server started");
+
+//*** IO SETUP ***
+  pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
+  pinMode(14, OUTPUT);
+  
+
+  //********BME280 connection********\\
+
+
+  // default settings
+  // (you can also pass in a Wire library object like &Wire2)
+  bmeStatus = bme.begin(0x76);  
+  if (!bmeStatus) {
+    Serial.println("Could not find a valid BME280 sensor, check wiring!");
+    while (1);
+  }
+
+
+}
+ 
+void loop(void) {
+
+  readSensor();
+  server.handleClient();
+}

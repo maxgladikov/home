@@ -1,0 +1,2 @@
+rootProject.name = 'home'
+include  'common', 'climate_service', 'config_server'

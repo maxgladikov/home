@@ -1,0 +1,39 @@
+
+server:
+  port: 8888
+#Enable all Spring Boot Actuator endpoints.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: 'DEBUG'
+        
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: git
+  cloud:
+    config:
+      server:
+        bootstrap: true
+#        clone-on-start: true
+        git:
+#          uri: https://github.com/maxgladikov/smart_home_configs.git
+          uri: https://github.com/maxgladikov/home.git
+#          cloneOnStart: true
+          searchPaths: configs
+          default-label: main
+          username: maxgladikov
+          password: '[metafrax22]'
+#          skipSslValidation: true
+#          refreshRate: 30
+#          defaultLabel: main
+
+#encrypt:
+# key: CB5yh5BjD3wrzt4NV1FvkED5cXsX2pAYJp2MY661DS5jWzniUquFZbmKojgKlmFaKOf9CLmGcvpMPodd8kaG5nn3PCVoPmD8y6sR

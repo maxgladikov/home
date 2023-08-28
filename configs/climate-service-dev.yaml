@@ -1,0 +1,24 @@
+sensors:
+  url[0] : '192.168.201.11'
+  url[1] : '192.168.201.12'
+  url[2] : '192.168.201.13'
+  url[3] : '192.168.201.14'
+  url[4] : '192.168.201.15'
+
+
+
+spring:
+  datasource:
+        #username: {cipher}351e0084bd91fda4cbe239e1854c93ce7d5175544614083ad6d98e3259ad4a65
+        #password: {cipher}43876c1b87df1eff99404831108d4718df86cbb451047591e4cfd182ca5a5aee
+    username: max
+    password: gladikov
+    url: jdbc:postgresql://localhost:5432/home
+    driverClassName: org.postgresql.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      enabled-by-default: true

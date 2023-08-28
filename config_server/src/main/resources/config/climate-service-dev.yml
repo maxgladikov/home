@@ -1,0 +1,22 @@
+sensors:
+ url[0] : '192.168.201.11'
+ url[1] : '192.168.201.12'
+ url[2] : '192.168.201.13'
+ url[3] : '192.168.201.14'
+ url[4] : '192.168.201.15'
+
+
+
+spring:
+    datasource:
+        username: admin
+        password: password
+        url: jdbc:postgresql://localhost:5432/home
+        driverClassName: org.postgresql.Driver
+                      
+management:
+   endpoints:
+          web:
+            exposure:
+                    include: "*"
+          enabled-by-default: true	

@@ -1,0 +1,43 @@
+/*=============GOOGLE FONTS================*/
+
+/*=============CSS VARIABLEs================*/
+:root{
+	--darkGrey: #808080;
+	--lightGrey: #cccccc;
+	--text: 	#404040;
+	--textTable: 	#595959;
+}
+html,body{
+	margin:0;
+	padding:0;
+	/*background:var(--lightGrey);*/
+}
+.container{
+	height: 100vh;
+	width: 100vw;
+	font-family: 'Fira sams', sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	display: grid;
+	grid-template: 43px 1fr 1fr 100px/repeat(3, 1fr);
+	gap: 0px;
+}
+.header{
+	grid-column-start:1;
+	grid-column-end:4;
+	border: solid 0px;
+	background:var(--darkGrey);
+	grid-row-start:1;
+	grid-row-end:span 1;
+	text-align: left;
+	display: inline-block;
+}		
+
+.content{
+	position:relative;
+	grid-column-start:1;
+	grid-column-end:4;
+	grid-row-start:2;
+	grid-row-end:span 3;
+	/*border: solid 1px;*/
+}

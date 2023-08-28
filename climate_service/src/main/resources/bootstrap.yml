@@ -1,0 +1,14 @@
+spring:
+    application:
+      name: climate_service 
+    profiles:
+      active: dev
+    cloud:
+        config: 
+            uri: http://localhost:8888
+            label: main
+            
+logging:
+  level:
+    root: INFO      
+    org.springframework.cloud: 'DEBUG'    

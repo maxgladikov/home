@@ -1,0 +1,54 @@
+
+plugins {
+	id "com.diffplug.eclipse.apt" version "3.26.0" // Only for Eclipse
+}
+
+
+//dependencyManagement {
+//	imports {
+//		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//	}
+//}
+
+dependencies {
+	implementation project(':common')
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+//	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+//	implementation 'org.springframework.kafka:spring-kafka'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+//	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	testImplementation 'org.testcontainers:junit-jupiter'
+//	testImplementation 'org.testcontainers:kafka'
+	testImplementation 'org.testcontainers:postgresql'
+	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation "org.testcontainers:testcontainers:1.18.3"
+	testImplementation 'org.testcontainers:postgresql:1.18.3'
+	
+//	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+//	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+//	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+}
+
+configurations {
+	compileOnly.extendsFrom annotationProcessor
+	testCompileOnly.extendsFrom annotationProcessor
+	testAnnotationProcessor.extendsFrom annotationProcessor
+}
+
+//compileJava {
+//	options.compilerArgs += [
+//		'-Amapstruct.suppressGeneratorTimestamp=true',
+//		'-Amapstruct.suppressGeneratorVersionInfoComment=true',
+//		'-Amapstruct.verbose=true',
+//		'-Amapstruct.defaultComponentModel=spring'
+//	]
+//}
