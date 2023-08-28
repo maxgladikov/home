@@ -9,10 +9,8 @@ sensors:
 
 spring:
   datasource:
-        #username: {cipher}351e0084bd91fda4cbe239e1854c93ce7d5175544614083ad6d98e3259ad4a65
-        #password: {cipher}43876c1b87df1eff99404831108d4718df86cbb451047591e4cfd182ca5a5aee
-    username: max
-    password: gladikov
+    username: db_user
+    password: {cipher}3caa935ea89c39833d9f1f4e4f1c044a5cc496eeccc18da51362d7adc82a9f14
     url: jdbc:postgresql://localhost:5432/home
     driverClassName: org.postgresql.Driver
 

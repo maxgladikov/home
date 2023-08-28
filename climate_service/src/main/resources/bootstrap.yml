@@ -4,7 +4,8 @@ spring:
     profiles:
       active: dev
     cloud:
-        config: 
+        config:
+            name: climate-service 
             uri: http://localhost:8888
             label: main
             
