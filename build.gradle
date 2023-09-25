@@ -15,7 +15,7 @@ allprojects {
 	group 'online.gladikov.home'
 	
 	ext {
-		springCloudVersion = "2022.0.3"
+		springCloudVersion = "2022.0.4"
 		mapstructVersion = "1.5.5.Final"
 		lombokVersion = "1.18.28"
 		jacocoVersion = "0.8.7"
