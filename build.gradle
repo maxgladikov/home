@@ -8,7 +8,7 @@ plugins {
 
 def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery')]
 def libraryProjects=[project(':common')]
-version='1.0.5'
+version='1.0.7'
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
@@ -138,7 +138,7 @@ jib {
 	}
 	container {
 		jvmFlags = [
-//					  "-server",
+					  "-server",
 				"-Duser.timezone=UTC",
 				"-Xms128m",
 				"-Xmx1g"]

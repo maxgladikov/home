@@ -28,9 +28,8 @@ spring:
           tryMasterBranch: false
           searchPaths: configs
           default-label: main
-encrypt:
- key: CB5yh5BjD3wrzt4NV1FvkED5cXsX2pAYJp2MY661DS5jWzniUquFZbmKojgKlmFaKOf9CLmGcvpMPodd8kaG5nn3PCVoPmD8y6s
- 
+          refreshRate: 30
+
  
  
  
