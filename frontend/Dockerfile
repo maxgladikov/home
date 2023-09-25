@@ -6,14 +6,13 @@
 # docker run -p 80:80 home-angular
 
 # stage 1
-FROM node:latest as builder
+FROM node:latest AS builder
 WORKDIR /usr/local/app
-WORKDIR /app
-COPY . .
+COPY . /usr/local/app
 RUN npm install
 RUN npm run build
 # stage 2
-FROM nginx:1.25-alpine as home-angular
-COPY --from=builder /app/dist/home /usr/share/nginx/html
+FROM nginx:1.25-alpine AS home.angular
+COPY --from=builder /usr/local/app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
 #clear && docker build -t home-angular . && docker run -p 80:80 home-angular
