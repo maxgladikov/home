@@ -8,7 +8,7 @@ plugins {
 
 def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery')]
 def libraryProjects=[project(':common')]
-version='1.0.7'
+version='1.0.8'
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
