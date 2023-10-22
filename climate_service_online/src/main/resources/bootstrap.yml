@@ -1,11 +1,11 @@
 spring:
     application:
-      name: climate_service_online 
+      name: climate_service_online
     profiles:
       active: docker
     cloud:
         config:
-            name: climate-service 
+            name: climate-service-online
             uri: http://home.config:8888
             label: main
             

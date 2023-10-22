@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import online.gladikov.home.climate_service_online.model.SensorRecord;
 import online.gladikov.home.climate_service_online.service.ClimateService;
 import reactor.core.publisher.Mono;
-@Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/climate/online", produces = "application/json")
 @RequiredArgsConstructor

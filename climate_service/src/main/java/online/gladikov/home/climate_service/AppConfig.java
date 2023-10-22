@@ -18,7 +18,7 @@ public class AppConfig {
 	private final ConfigSensors sensors;
 	
 	 @Bean
-	    public List<SensorReader> getClients() {
+	    List<SensorReader> getClients() {
 	       
 		 return sensors.getUrl().stream().map(url -> {
 			 
