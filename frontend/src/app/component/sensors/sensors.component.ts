@@ -7,11 +7,11 @@ import { ReadSensorService } from 'src/app/service/read-sensor.service';
   styleUrls: ['./sensors.component.css']
 })
 export class SensorsComponent {
-  name='Pidor';
+
   sensor:Sensor;
-  foreground='green';
+  foreground='grey';
   isHidden=false;
-  url='http://localhost:8080/sensor';
+  url='basment';
   constructor(private sensorService: ReadSensorService) {
     this.sensorService.getSensor(this.url).subscribe(
       (data: Sensor) => this.sensor = { ...data }

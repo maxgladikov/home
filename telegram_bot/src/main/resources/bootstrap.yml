@@ -1,0 +1,15 @@
+spring:
+    application:
+      name: climate_service_online 
+    profiles:
+      active: docker
+    cloud:
+        config:
+            name: climate-service 
+            uri: http://home.config:8888
+            label: main
+            
+logging:
+  level:
+    root: INFO      
+    org.springframework.cloud: 'INFO'

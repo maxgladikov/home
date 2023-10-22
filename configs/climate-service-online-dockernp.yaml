@@ -1,0 +1,23 @@
+server:
+    port: 9000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web : INFO
+
+
+custom:
+  cron : "0/120 * * ? * *"
+  sensors:
+    diningroom : '192.168.0.202'
+    bedroom : '192.168.0.203'
+    masterBedRoom : '192.168.0.204'
+    basment : '192.168.0.205'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      enabled-by-default: true

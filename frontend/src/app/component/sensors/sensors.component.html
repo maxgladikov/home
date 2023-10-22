@@ -1,4 +1,4 @@
 <p [hidden]="isHidden" [style.color]="foreground">{{sensor.sensor}}</p>
-<p [hidden]="isHidden" [style.color]="foreground">{{sensor.temperature}} C</p>
-<p [hidden]="isHidden" [style.color]="foreground">{{sensor.pressure}} mmHg</p>
-<p [hidden]="isHidden" [style.color]="foreground">{{sensor.humidity}} %</p>
+<p [hidden]="isHidden" [style.color]="foreground">{{sensor.temperature| number: '2.0-2'}} C</p>
+<p [hidden]="isHidden" [style.color]="foreground">{{sensor.pressure| number: '2.0-2'}} mmHg</p>
+<p [hidden]="isHidden" [style.color]="foreground">{{sensor.humidity| number: '2.0-2'}} %</p>

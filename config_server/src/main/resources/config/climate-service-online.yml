@@ -1,0 +1,14 @@
+customs:
+  sensors:
+    masterBedRoom : '192.168.201.11'
+    livingRoom : '192.168.201.12'
+    smallBedRoom : '192.168.201.13'
+    kitchen : '192.168.201.14'
+    bathroom : '192.168.201.15'
+
+management:
+  endpoints:
+    web:
+      exposure:
+      include: "*"
+      enabled-by-default: true

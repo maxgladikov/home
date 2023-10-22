@@ -7,12 +7,13 @@ import { Sensor } from '../models/sensor.model';
   providedIn: 'root'
 })
 export class ReadSensorService {
-  
+  url='http://localhost:8080/api/v1/sensors/sensor/';
   constructor(private http: HttpClient) { }
   
-  getSensor(url:string) {
+  getSensor(uri:string) {
   
-    return this.http.get<Sensor>(url);
+const options = {responseType: 'json' as const,};
+    return this.http.get<Sensor>(this.url.concat(uri.toString()),options);
   }
 }
 

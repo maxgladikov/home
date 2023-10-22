@@ -1,0 +1,108 @@
+#include <WiFi.h>
+#include <WebServer.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+
+
+// **** FIELDS **** 
+const int INBUILD_LED1=2;
+const int INBUILD_LED2=16;
+const char* ssid = "S10";
+const char* password = "hyundaiaccent";
+bool bmeNotConnected;
+const char* tag="diningroom";
+float temperature;// Celsus deg
+float pressure;// mmHg
+float humidity;// %
+DynamicJsonDocument docSensor(512);
+DynamicJsonDocument docAct(512);
+ESP8266WebServer server(80);
+Adafruit_BME280 bme; // I2C
+
+// **** FUNCTIONS ****
+void setupBME280(){
+  bmeNotConnected=!bme.begin(0x76);
+  if (bmeNotConnected) {
+    Serial.println("Could not find a valid BME280 sensor, check wiring!");
+  }
+}
+void readSensor(){
+  temperature=bme.readTemperature();// C
+  pressure=0.75006*bme.readPressure() / 100.0F;//mmHg
+  humidity=bme.readHumidity();// %
+}
+
+bool verifyNotConnected(){
+  return temperature<-40 || temperature>85 || humidity==100 || isnan(temperature+humidity+pressure);
+}
+
+
+void handleRestart(){
+  
+  ESP.restart();
+}
+void handleLedON(){
+  digitalWrite(INBUILD_LED1, LOW);
+  digitalWrite(INBUILD_LED2, LOW);
+  
+}
+void handleLedOFF(){
+  digitalWrite(INBUILD_LED1, HIGH);
+  digitalWrite(INBUILD_LED2, HIGH);
+  
+}
+
+ 
+
+void setupWiFi(){
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  Serial.println("");
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void setupIO(){
+  pinMode(INBUILD_LED1, OUTPUT);
+  pinMode(INBUILD_LED2, OUTPUT);
+  digitalWrite(INBUILD_LED1, HIGH);
+  digitalWrite(INBUILD_LED2, HIGH);
+}
+
+void flick(){
+  delay(1000);
+  digitalWrite(INBUILD_LED1, LOW);
+  digitalWrite(INBUILD_LED2, LOW);
+  delay(1000);
+  digitalWrite(INBUILD_LED1, HIGH);
+  digitalWrite(INBUILD_LED2, HIGH);
+
+}
+
+// **** EXECUTION ****
+void setup(void) {
+  setupIO();
+  setupWiFi();
+  setupBME280();
+  setupRestServer();
+}
+ 
+void loop(void) {
+  if(bmeNotConnected){
+    server.handleClient();
+
+  }else{
+    readSensor();
+    server.handleClient();
+  }
+  bmeNotConnected=verifyNotConnected();
+}
