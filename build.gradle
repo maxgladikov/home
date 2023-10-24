@@ -8,7 +8,7 @@ plugins {
 
 def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery'),project(':climate_service_online')]//,project(':telegram_bot')
 def libraryProjects=[project(':common')]
-version='1.1.1'
+version='1.1.9'
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
@@ -126,7 +126,8 @@ configure(springProjects){
 jib {
 	var tag = "latest"
 	from {
-	  image = 'eclipse-temurin:17.0.8.1_1-jre-ubi9-minimal'
+	  image = "eclipse-temurin:17.0.8.1_1-jre-ubi9-minimal"
+	  //'eclipse-temurin:17.0.8.1_1-jre-ubi9-minimal'
 	  platforms{
 		  platform {
 			  architecture = 'arm64'
@@ -142,10 +143,8 @@ jib {
 	  image = "maxgladikov/${rootProject.name}.${project.name}:${rootProject.version}"
 	  tags = ["$tag", "$rootProject.version"]
 	  auth {
-		  username = System.getenv("DOCKER_USERNAME")
-//		username ="maxgladikov"
-				password = System.getenv("DOCKER_PASSWORD")
-//		password = "HVMsvhZWSMvYgYMPRyOtYN1XKIR2tKM4KmCjnQMlsQjtqOpJILEBdUTjMvhWt9H68l7ctn0mAvW95RBBXHfq8PuAbyOGWRWpxqOgCfsJXYGDhclJzcyJs3hqsjFcD"
+		  username = "maxgladikov"
+		  password = System.getenv("DOCKER_PASSWORD")
 	  }
 	}
 	container {

@@ -30,8 +30,6 @@ public class Client {
 				.baseUrl(url).build();
 	}
 	
-	
-	
 	@Override
 	public String toString() {
 		return "Client [webClient=" + webClient + "]";
@@ -44,15 +42,7 @@ public class Client {
 				.get()
 		          .uri("/")
 		          .retrieve()
-//		              .onStatus(HttpStatus::is4xxClientError,
-//		                      error -> Mono.error(new RuntimeException("API not found")))
-//		              .onStatus(HttpStatus::is5xxServerError,
-//		                      error -> Mono.error(new RuntimeException("Server is not responding")))
-		          
 		          .bodyToMono(SensorRecord.class)
-		          .doOnError(ex -> log.error("error occured!"));
-//		          .flatMap(s -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(s));
-		        
-//		          .doOnError(error -> log.error("*****************************"));
+		          .doOnError(ex -> log.error("error while geting info from node occured!"));
 	}
 }

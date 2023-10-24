@@ -15,7 +15,8 @@ public class Beans {
 	private final CustomProperties properties;
 	@Bean
 	Map<String,Client> clients(){
-		Map<String,String> sensors=properties.getSensors();
-		return sensors.keySet().stream().collect(Collectors.toMap(x->x, x->new Client(sensors.get(x))));
+		Map<String,String> sensorsRaw=properties.getSensors();
+		Map<String, String> sensors = sensorsRaw.keySet().stream().collect(Collectors.toMap(x->x.toLowerCase(), sensorsRaw::get));
+		return sensors.keySet().stream().collect(Collectors.toConcurrentMap(x->x, x->new Client(sensors.get(x))));
 	}
 }
