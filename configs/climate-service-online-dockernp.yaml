@@ -13,7 +13,7 @@ custom:
     diningroom : '192.168.0.202'
     bedroom : '192.168.0.203'
     masterBedRoom : '192.168.0.204'
-    basment : '192.168.0.205'
+    basement : '192.168.0.205'
 
 management:
   endpoints:
