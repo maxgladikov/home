@@ -16,3 +16,4 @@ FROM nginx:1.25-alpine AS home.angular
 COPY --from=builder /usr/local/app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
 #clear && docker build -t home-angular . && docker run -p 80:80 home-angular
+#clear && docker build . -t maxgladikov/home.frontend:1.0.0 && docker push  maxgladikov/home.frontend:1.0.0

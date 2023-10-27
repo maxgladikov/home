@@ -7,14 +7,19 @@ import { ReadSensorService } from 'src/app/service/read-sensor.service';
   styleUrls: ['./sensors.component.css']
 })
 export class SensorsComponent {
-
-  sensor:Sensor;
+  title = 'sensors';
   foreground='grey';
   isHidden=false;
-  url='basment';
+  
+  sensors=new Set<string>(['bedroom','basement','masterbedroom','livingroom']);
+  sensorRecords=new Set<Sensor>;
   constructor(private sensorService: ReadSensorService) {
-    this.sensorService.getSensor(this.url).subscribe(
-      (data: Sensor) => this.sensor = { ...data }
+    this.sensors.forEach(x => this.sensorService.getSensor(x).subscribe( 
+      (data: Sensor) => this.sensorRecords.add(data),
+      err => this.sensorRecords.add(new Sensor()),
+      () => console.log('Observer got a complete notification')
       )
+    );
   }
+
 }
