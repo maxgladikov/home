@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
@@ -11,13 +12,14 @@ import { SensorsOnlineComponent } from './component/sensors-online/sensors-onlin
 import { ChartComponent } from './component/chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
     SensorsComponent,
-    SensorsOnlineComponent
+    SensorsOnlineComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule ,
     NgxEchartsModule.forRoot({
       /**
        * This will import all modules from echarts.

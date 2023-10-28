@@ -19,12 +19,13 @@ html,body{
 	font-weight: bold;
 	font-size: 20px;
 	display: grid;
-	grid-template: 43px 1fr 1fr 100px/repeat(3, 1fr);
+	grid-template: 43px 1fr 1fr 100px/repeat(4, 1fr);
 	gap: 0px;
+	background:var(--darkGrey);
 }
 .header{
 	grid-column-start:1;
-	grid-column-end:4;
+	grid-column-end:5;
 	border: solid 0px;
 	background:var(--darkGrey);
 	grid-row-start:1;
@@ -32,12 +33,26 @@ html,body{
 	text-align: left;
 	display: inline-block;
 }		
-
 .content{
 	position:relative;
 	grid-column-start:1;
-	grid-column-end:4;
+	grid-column-end:5;
 	grid-row-start:2;
-	grid-row-end:span 3;
+	grid-row-end:span 4;
 	/*border: solid 1px;*/
+}
+.footer{
+	position:relative;
+	grid-column-start:1;
+	grid-column-end:5;
+	grid-row-start:5;
+	grid-row-end:span 1;
+	text-align: right;
+}
+
+.label{
+	font-size: small;
+	color: var(--lightGrey);
+	background-color: transparent;
+	text-decoration: none; 
 }
