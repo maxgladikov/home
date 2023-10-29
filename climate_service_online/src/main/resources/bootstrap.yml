@@ -4,8 +4,8 @@ spring:
     cloud:
         config:
             name: climate-service-online
-            uri: http://config-server:8888
-#            uri: http://localhost:8888
+#            uri: http://config-server:8888
+            uri: http://localhost:8888
             label: main
             
 logging:

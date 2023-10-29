@@ -1,19 +1,11 @@
 import { Component } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { BaseChartDirective } from 'ng2-charts';
 import { ReadSensorService } from 'src/app/service/read-sensor.service';
-import {BehaviorSubject, Observable, lastValueFrom,of} from 'rxjs';
-import {DataSource} from '@angular/cdk/collections';
-import { Sensor } from 'src/app/models/sensor.model';
+import {Observable,of} from 'rxjs';
 import {
-  retry,
   tap,
   map,
   finalize,
   mergeMap,
-  takeUntil,
-  take,
   catchError,
   flatMap,
   toArray,

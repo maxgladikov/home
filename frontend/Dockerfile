@@ -6,7 +6,7 @@
 # docker run -p 80:80 home-angular
 
 # stage 1
-FROM node:20.9.0-alpine AS builder
+FROM node:20.9.0 AS builder
 WORKDIR /usr/local/app
 COPY . /usr/local/app
 RUN npm install
