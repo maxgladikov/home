@@ -1,12 +1,12 @@
-spring:
-    application:
-      name: discovery_service
-    cloud:
-        config:
-            name: discovery-service
-#            uri: http://config-server:8888
-            uri: http://localhost:8888
-            label: main
+spring:   
+  main:
+    log-startup-info: false
+  cloud:
+    config:
+      name: discovery-service
+#      uri: http://config-server:8888
+      uri: http://localhost:8888
+      label: main
             
 logging:
   level:

@@ -1,14 +1,24 @@
 spring:
-    application:
-      name: climate_service_online
-    cloud:
-        config:
-            name: climate-service-online
-#            uri: http://config-server:8888
-            uri: http://localhost:8888
-            label: main
+  profiles:
+    active: dev
+  main:
+    log-startup-info: false
+
+  
+  
+  cloud:
+    config:
+      name: climate-service-online
+#      uri: http://config-server:8888
+      uri: http://localhost:8888
+      label: main
+            
+  
+
             
 logging:
+  threshold:
+    file: 'INFO'
   level:
     root: 'INFO'      
 #    '[org.springframework.cloud]': 'INFO'

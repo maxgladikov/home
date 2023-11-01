@@ -1,4 +1,3 @@
-
 server:
   port: 8888
 #Enable all Spring Boot Actuator endpoints.
@@ -17,6 +16,8 @@ logging:
 #    org.springframework.cloud: 'INFO'
         
 spring:
+  main:
+    log-startup-info: true
   application:
     name: config-server
   profiles:

@@ -1,5 +1,9 @@
+spring:
+    application:
+      name: discovery_service
 server:
   port: 8761
+
 eureka:
   instance:
     hostname: localhost
@@ -11,6 +15,4 @@ eureka:
         http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
      waitTimeInMsWhenSyncEmpty: 5
-spring:
-    application:
-      name: discovery_service
+

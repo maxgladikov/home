@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: climate_service_online
+
 server:
     port: 9000
 
@@ -8,7 +12,6 @@ logging:
 
 
 custom:
-  cron : "0/120 * * ? * *"
   sensors:
     kitchen : '192.168.0.202'
     bedroom : '192.168.0.203'
