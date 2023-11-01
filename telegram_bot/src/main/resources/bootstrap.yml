@@ -3,7 +3,7 @@ spring:
       active: dev
     cloud:
         config:
-            name: climate-service 
+            name: telegram-bot 
 #            uri: http://home.config:8888
             uri: http://localhost:8888
             label: main
