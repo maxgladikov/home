@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: telegram-bot
+  main:
+    web-application-type: none
+
+
+logging:
+  level:
+    root: INFO
+
+
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      probes:
+        enabled: true

@@ -1,15 +1,13 @@
-spring:
-    application:
-      name: climate_service_online 
+spring: 
     profiles:
-      active: docker
+      active: dev
     cloud:
         config:
             name: climate-service 
-            uri: http://home.config:8888
+#            uri: http://home.config:8888
+            uri: http://localhost:8888
             label: main
             
 logging:
   level:
     root: INFO      
-    org.springframework.cloud: 'INFO'
