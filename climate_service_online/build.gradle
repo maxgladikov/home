@@ -1,7 +1,7 @@
 // CLIMATE_SERVICE_ONLINE
-plugins {
-	id "com.diffplug.eclipse.apt" version "3.26.0" // Only for Eclipse
-}
+//plugins {
+//	id "com.diffplug.eclipse.apt" version "3.26.0" // Only for Eclipse
+//}
 
 
 dependencies {
@@ -14,11 +14,6 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 }
 
-configurations {
-	compileOnly.extendsFrom annotationProcessor
-	testCompileOnly.extendsFrom annotationProcessor
-	testAnnotationProcessor.extendsFrom annotationProcessor
-}
 
 compileJava {
 	options.compilerArgs += [

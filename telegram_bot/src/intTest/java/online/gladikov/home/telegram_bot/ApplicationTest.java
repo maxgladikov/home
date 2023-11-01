@@ -1,4 +1,4 @@
-package online.gladikov.home.climate_service_online;
+package online.gladikov.home.telegram_bot;
 
 
 import static org.assertj.core.api.Assertions.assertThat;

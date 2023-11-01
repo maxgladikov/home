@@ -6,7 +6,7 @@ plugins {
 	id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
-def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery_service'),project(':climate_service_online')]//,project(':telegram_bot')
+def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery_service'),project(':climate_service_online'),project(':telegram_bot')]
 def libraryProjects=[project(':common')]
 version='1.2.1'
 allprojects {
@@ -14,7 +14,7 @@ allprojects {
 	apply plugin: 'java'
 	group 'online.gladikov.home'
 	
-	ext {
+	ext { 
 		springCloudVersion = "2022.0.4"
 		mapstructVersion = "1.5.5.Final"
 		lombokVersion = "1.18.28"
@@ -22,13 +22,13 @@ allprojects {
 		jUnitVersion='5.7.1'
 		profiles = 'dev'
 	}
-	java {
-		toolchain {
-			languageVersion = JavaLanguageVersion.of(17)
-		}
-	}
-	java.sourceCompatibility(JavaVersion.VERSION_17)
-	java.targetCompatibility(JavaVersion.VERSION_17)
+//	java {
+//		toolchain {
+//			languageVersion = JavaLanguageVersion.of(17)
+//		}
+//	}
+//	java.sourceCompatibility(JavaVersion.VERSION_17)
+//	java.targetCompatibility(JavaVersion.VERSION_17)
 	compileJava.options.encoding = 'UTF-8'
 	repositories {
 		mavenLocal()
@@ -62,6 +62,7 @@ subprojects {
 		}
 	}
 	// ** JaCoCo ** \\
+	
 	jacocoTestCoverageVerification {
 		violationRules {
 		  rule {
@@ -76,12 +77,12 @@ subprojects {
 	  test.finalizedBy jacocoTestReport
 	  jacocoTestReport.dependsOn test
 	  check.dependsOn jacocoTestCoverageVerification
+	  
 	// ************ \\
 }
 
 configure(springProjects){
-	println "Hello from spring ${project.name}"
-	apply plugin: 'java'
+//	apply plugin: 'java'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management' 
 	apply plugin: 'com.google.cloud.tools.jib' 
@@ -92,6 +93,7 @@ configure(springProjects){
 				exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 			}
 	}
+	
 	bootJar {
 		enabled = true
 	}
@@ -123,11 +125,12 @@ configure(springProjects){
 	  }
 	  check.dependsOn integrationTest
 	//*************\\
+	/*
 jib {
 	var tag = "latest"
 	from {
 	  image = "eclipse-temurin:17.0.8.1_1-jre-ubi9-minimal"
-	  //'eclipse-temurin:17.0.8.1_1-jre-ubi9-minimal'
+	  
 	  platforms{
 		  platform {
 			  architecture = 'arm64'
@@ -141,7 +144,7 @@ jib {
 	}
 	to {
 	  image = "maxgladikov/${rootProject.name}.${project.name}:${rootProject.version}"
-	  tags = ["$tag", "$rootProject.version"]
+	  tags = ["$tag"]//, "$rootProject.version"]
 	  auth {
 		  username = "maxgladikov"
 		  password = System.getenv("DOCKER_PASSWORD")
@@ -149,10 +152,11 @@ jib {
 	}
 	container {
 		jvmFlags = [
-					  "-server",
-				"-Duser.timezone=UTC",
-				"-Xms128m",
-				"-Xmx500m"]
+				  	"-server",
+					"-Duser.timezone=UTC",
+					"-Xms128m",
+					"-Xmx500m"
+					]
 	creationTime = Instant.now().toString()
 	format = com.google.cloud.tools.jib.api.buildplan.ImageFormat.OCI
 	}
@@ -161,10 +165,10 @@ jib {
   tasks.build.dependsOn tasks.jib
   
   
+*/
 
 
-
-task incrementVersion{
+//task incrementVersion{
 	/**
     String minor=rootProject.version.substring(rootProject.version.lastIndexOf('.')+1)
     int m=minor.toInteger()+1
@@ -172,9 +176,9 @@ task incrementVersion{
     String s=rootProject.buildFile.getText().replaceFirst("version='$rootProject.version'","version='"+major+m+"'")
     rootProject.buildFile.setText(s)
 	**/
-}
+//}
 
-tasks.jib.dependsOn tasks.incrementVersion
+//tasks.jib.dependsOn tasks.incrementVersion
 		
 		
 		dependencyManagement {
