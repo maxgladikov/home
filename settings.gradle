@@ -1,2 +1,2 @@
 rootProject.name = 'home'
-include  'common', 'climate_service', 'climate_service_online','config_server', 'discovery'//,'telegram_bot'
+include  'common', 'climate_service', 'climate_service_online','config_server', 'discovery_service'//,'telegram_bot'

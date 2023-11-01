@@ -6,9 +6,9 @@ plugins {
 	id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
-def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery'),project(':climate_service_online')]//,project(':telegram_bot')
+def springProjects=[project(':climate_service'), project(':config_server'), project(':discovery_service'),project(':climate_service_online')]//,project(':telegram_bot')
 def libraryProjects=[project(':common')]
-version='1.2.0'
+version='1.2.1'
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
