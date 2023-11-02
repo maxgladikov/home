@@ -21,9 +21,9 @@ public class Client {
 		HttpClient httpClient = HttpClient.create()
 				   .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000) // 10s, default - 30s
 				   .option(ChannelOption.SO_KEEPALIVE, true)			// Keep alive
-				   .option(EpollChannelOption.TCP_KEEPIDLE, 300)		// enabled keep-alive checks to probe after 300s of being idle
-				   .option(EpollChannelOption.TCP_KEEPINTVL, 60)		// 60 seconds intervals
-				   .option(EpollChannelOption.TCP_KEEPCNT, 8)			// maximum number of probes before the connection dropping to 8
+//				   .option(EpollChannelOption.TCP_KEEPIDLE, 300)		// enabled keep-alive checks to probe after 300s of being idle
+//				   .option(EpollChannelOption.TCP_KEEPINTVL, 60)		// 60 seconds intervals
+//				   .option(EpollChannelOption.TCP_KEEPCNT, 8)			// maximum number of probes before the connection dropping to 8
 				  .responseTimeout(Duration.ofSeconds(2)); 				// 2s
 		webClient=WebClient.builder()
 				.clientConnector(new ReactorClientHttpConnector(httpClient))

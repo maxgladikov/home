@@ -1,0 +1,125 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15.4
+    pull_policy: never
+    container_name: home.db
+    restart: always
+    environment:
+      POSTGRES_DB: {{ POSTGRES_DB }}
+      POSTGRES_USER: {{ POSTGRES_USER }}
+      POSTGRES_PASSWORD: {{ POSTGRES_PASSWORD }}
+      TZ: "Asia/Yekaterinburg"
+      PGTZ:  "Asia/Yekaterinburg"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U db_user -d home"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+
+  config-server:
+    image: "maxgladikov/home.config_server:latest"
+    pull_policy: always
+    container_name: home.config_server
+     healthcheck:
+     test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
+     interval: 2s
+     timeout: 3s
+     retries: 2
+     start_period: 40s
+    networks:
+      - backend
+    environment:
+      ENCRYPT_KEY: "CB5yh5BjD3wrzt4NV1FvkED5cXsX2pAYJp2MY661DS5jWzniUquFZbmKojgKlmFaKOf9CLmGcvpMPodd8kaG5nn3PCVoPmD8y6s"
+
+
+  discovery-service:
+    image: "maxgladikov/home.discovery_service:latest"
+    pull_policy: always
+    container_name: home.discovery_service
+     healthcheck:
+     test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
+     interval: 2s
+     timeout: 3s
+     retries: 2
+     start_period: 20s
+    networks:
+      - backend
+    depends_on:
+      config-server:
+        condition: service_healthy
+
+  telegram_bot:
+    image: "maxgladikov/home.telegram_bot:latest"
+    pull_policy: always
+    container_name: home.telegram_bot
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      interval: 1m
+      timeout: 3s
+      retries: 2
+      start_period: 30s
+    networks:
+      - backend
+    environment:
+      SPRING_PROFILES_ACTIVE: "dockernp"
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+
+
+  climate_service_online:
+    image: "maxgladikov/home.climate_service_online:latest"
+    pull_policy: always
+    container_name: home.climate_service_online
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      interval: 1m
+      timeout: 3s
+      retries: 2
+      start_period: 30s
+    networks:
+      - backend
+      - frontend
+    ports:
+      - '9000:9000'
+    environment:
+      SPRING_PROFILES_ACTIVE: "dockernp"
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888"
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+
+  frontend:
+    image: "maxgladikov/home.frontend:1.0.2"
+    pull_policy: always
+    container_name: home.frontend
+    networks:
+      - frontend
+    ports:
+      - '80:80'
+    depends_on:
+      climate_service_online:
+        condition: service_healthy
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+
+

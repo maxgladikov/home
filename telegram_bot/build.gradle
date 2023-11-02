@@ -1,17 +1,18 @@
 // TELEGRAM_BOT
-plugins {
-	id "com.diffplug.eclipse.apt" version "3.26.0" // Only for Eclipse
-}
+//plugins {
+//	id "com.diffplug.eclipse.apt" version "3.26.0" // Only for Eclipse
+//}
 
 
 dependencies {
 	implementation project(':common')
+	implementation 'org.telegram:telegrambots:6.8.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	testImplementation 'io.projectreactor:reactor-test'	
+//	testImplementation 'io.projectreactor:reactor-test'	
 }
 
 compileJava {
