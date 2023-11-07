@@ -13,14 +13,7 @@ custom:
     kitchen: '192.168.201.14'
     bathroom: '192.168.201.15'
 
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://discovery-service:8000/eureka/
+
 
 
 

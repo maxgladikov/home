@@ -1,8 +1,6 @@
 spring:
-  profiles:
-    active: dev
   main:
-    log-startup-info: false
+    log-startup-info: true
 
   
   
