@@ -1,0 +1,14 @@
+spring: 
+    profiles:
+      active: dev
+    cloud:
+        config:
+            name: gateway-server 
+#            uri: http://home.config:8888
+            uri: http://localhost:8888
+            label: main
+        refresh:
+          enabled: false
+logging:
+  level:
+    root: INFO

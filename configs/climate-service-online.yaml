@@ -10,13 +10,16 @@ logging:
     root: INFO
     org.springframework.web : INFO
 
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #defaultZone: http://discovery-service:8000/eureka/
+      defaultZone: http://localhost:8000/eureka/
 
-custom:
-  sensors:
-    kitchen : '192.168.0.202'
-    bedroom : '192.168.0.203'
-    master_bedroom : '192.168.0.204'
-    basement : '192.168.0.205'
 
 management:
   endpoints:

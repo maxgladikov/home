@@ -2,11 +2,10 @@ spring:
     application:
       name: discovery_service
 server:
-  port: 8761
+  port: 8000
 
 eureka:
-  #renewalPercentThreshold: 2
-  #instance:
+    #instance:
     #hostname: localhost
   client:
     registerWithEureka: false

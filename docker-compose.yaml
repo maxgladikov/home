@@ -1,5 +1,7 @@
 version: '3.8'
+
 services:
+
   db:
     image: postgres:15.4
     pull_policy: never
@@ -33,51 +35,77 @@ services:
     image: "maxgladikov/home.config_server:latest"
     pull_policy: always
     container_name: home.config_server
-     healthcheck:
+    healthcheck:
      test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
      interval: 2s
      timeout: 3s
      retries: 2
      start_period: 40s
+    ports:
+      - '8888:8888'
     networks:
       - backend
-    environment:
-      ENCRYPT_KEY: "CB5yh5BjD3wrzt4NV1FvkED5cXsX2pAYJp2MY661DS5jWzniUquFZbmKojgKlmFaKOf9CLmGcvpMPodd8kaG5nn3PCVoPmD8y6s"
-
 
   discovery-service:
     image: "maxgladikov/home.discovery_service:latest"
     pull_policy: always
     container_name: home.discovery_service
-     healthcheck:
-     test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://config-server:8888
+    healthcheck:
+     test: "curl --fail --silent localhost:8000/actuator/health/readiness | grep UP || exit 1"
      interval: 2s
      timeout: 3s
      retries: 2
      start_period: 20s
+    ports:
+      - '8000:8000'
     networks:
       - backend
     depends_on:
       config-server:
         condition: service_healthy
 
+  gateway-service:
+    image: "maxgladikov/home.gateway_service:latest"
+    pull_policy: always
+    container_name: home.gateway_service
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://config-server:8888
+    healthcheck:
+     test: "curl --fail --silent localhost:9002/actuator/health/readiness | grep UP || exit 1"
+     interval: 2s
+     timeout: 3s
+     retries: 2
+     start_period: 20s
+    ports:
+      - '9002:9002'
+    networks:
+      - backend
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+
   telegram_bot:
     image: "maxgladikov/home.telegram_bot:latest"
     pull_policy: always
     container_name: home.telegram_bot
+    environment:
+      SPRING_CONFIG_IMPORT: optional:configserver:http://config-server:8888
+      BOT_NAME: {{ BOT_NAME }}
+      BOT_TOKEN: {{ BOT_TOKEN }}
     healthcheck:
-      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent localhost:9001/actuator/health/readiness | grep UP || exit 1"
       interval: 1m
       timeout: 3s
       retries: 2
       start_period: 30s
     networks:
       - backend
-    environment:
-      SPRING_PROFILES_ACTIVE: "dockernp"
-      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888"
+    ports:
+      - '9001:9001'
     depends_on:
-      discovery-service:
+      gateway-service:
         condition: service_healthy
 
 
@@ -97,10 +125,9 @@ services:
     ports:
       - '9000:9000'
     environment:
-      SPRING_PROFILES_ACTIVE: "dockernp"
-      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888"
+      SPRING_PROFILES_ACTIVE: {{{ROFILE}}
     depends_on:
-      discovery-service:
+      gateway-service:
         condition: service_healthy
 
   frontend:

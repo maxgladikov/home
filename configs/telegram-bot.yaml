@@ -11,6 +11,15 @@ logging:
   level:
     root: INFO
 
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #defaultZone: http://discovery-service:8000/eureka/
+      defaultZone: http://localhost:8000/eureka/
 
 
 
