@@ -1,6 +1,6 @@
 spring:   
   main:
-    log-startup-info: false
+    log-startup-info: true
   cloud:
     config:
       name: discovery-service

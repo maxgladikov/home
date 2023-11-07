@@ -1,9 +1,9 @@
 spring: 
-    profiles:
-      active: dev
+   # profiles:
+    #  active: dev
     cloud:
         config:
-            name: gateway-server 
+            name: gateway-service 
 #            uri: http://home.config:8888
             uri: http://localhost:8888
             label: main
