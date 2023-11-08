@@ -25,7 +25,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include:
+          - health
+          - info
+          - mappings
+          - metrics
+          - loggers
+          - shutdown
+          - pause
+          - resume
   endpoint:
     health:
       probes:
