@@ -1,8 +1,8 @@
 spring:
     application:
-      name: discovery_service
+      name: discovery-service
 server:
-  port: 8000
+  port: 8761
 
 eureka:
     #instance:

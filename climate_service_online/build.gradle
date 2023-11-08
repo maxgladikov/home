@@ -1,7 +1,4 @@
 // CLIMATE_SERVICE_ONLINE
-//plugins {
-//	id "com.diffplug.eclipse.apt" version "3.26.0" // Only for Eclipse
-//}
 
 
 dependencies {

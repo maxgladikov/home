@@ -17,7 +17,7 @@
         <file>${LOGS}/spring-boot-logger.log</file>
         <encoder
             class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %p %C{1} [%t] %m%n</Pattern>
+            <Pattern> %d{HH:mm:ss.SSS} %p %C{0} [%t] %m%n</Pattern>
         </encoder>
 
         <rollingPolicy
@@ -32,16 +32,17 @@
         </rollingPolicy>
     </appender>
     
-    <!-- LOG everything at INFO level -->
+     <!-- LOG everything at INFO level -->
     <root level="info">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>
 
-    <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="online.gladikov.home.sensordataprovider" level="trace" additivity="false">
+    <!-- LOG "online.gladikov.home.config_server*" at TRACE level -->
+    <logger name="online.gladikov.home.config_server" level="trace" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
+
 
 </configuration>

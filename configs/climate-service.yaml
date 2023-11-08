@@ -23,5 +23,4 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      #defaultZone: http://discovery-service:8000/eureka/
-      defaultZone: http://localhost:8000/eureka/
+      defaultZone: http://localhost:8761/eureka

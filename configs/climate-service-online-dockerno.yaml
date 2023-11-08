@@ -1,10 +1,4 @@
 
-logging:
-  level:
-    root: INFO
-    org.springframework.web : INFO
-
-
 custom:
   sensors:
     master_bedroom: '192.168.201.11'
