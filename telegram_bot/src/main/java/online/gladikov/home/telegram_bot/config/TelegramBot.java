@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Component("telegramBot")
 //@RequiredArgsConstructor
 @AllArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {

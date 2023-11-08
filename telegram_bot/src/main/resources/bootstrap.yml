@@ -1,11 +1,16 @@
-spring: 
-    cloud:
-        config:
-            name: telegram-bot 
-            uri: http://localhost:8888
-            label: main
-        refresh:
-          enabled: false
+spring:
+  main:
+    web-application-type: none
+  cloud:
+    config:
+     name: telegram-bot 
+     uri: http://localhost:8888
+     label: main
+    refresh:
+      enabled: false
 logging:
   level:
     root: INFO
+    '[ch.qos.logback.core]': WARN
+    '[c.q.l.core.rolling]' : WARN
+    '[org.springframework]' : WARN

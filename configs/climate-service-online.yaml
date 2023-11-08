@@ -8,7 +8,7 @@ server:
 logging:
   level:
     root: INFO
-    org.springframework.web : INFO
+    org.springframework : INFO
 
 eureka:
   instance:

@@ -18,7 +18,9 @@ dependencies {
 }
 
 
-
+bootRun {
+    systemProperties System.properties
+}
 
 
 

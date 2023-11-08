@@ -5,11 +5,6 @@ spring:
 server:
   port: 9001
 
-
-logging:
-  level:
-    root: INFO
-
 eureka:
   instance:
     preferIpAddress: true
@@ -21,20 +16,4 @@ eureka:
 
 
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - health
-          - info
-          - mappings
-          - metrics
-          - loggers
-          - shutdown
-          - pause
-          - resume
-  endpoint:
-    health:
-      probes:
-        enabled: true
+
